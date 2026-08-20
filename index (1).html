@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IPET N°247 "Ing. Carlos Cassaffousth"</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ladrillo:#A6403A;
+    --ladrillo-dark:#7E2F2B;
+    --crema:#F6F1E7;
+    --tinta:#1C1B19;
+    --amarillo:#F0B429;
+    --acero:#33505E;
+    --acero-dark:#233B46;
+    --linea: rgba(28,27,25,.12);
+    --radius: 4px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter', sans-serif;
+    color:var(--tinta);
+    background:var(--crema);
+    line-height:1.55;
+  }
+  h1,h2,h3,h4{
+    font-family:'Barlow Condensed', sans-serif;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.01em;
+    line-height:1.05;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.72rem;
+    font-weight:700;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--ladrillo);
+    display:flex;
+    align-items:center;
+    gap:.5rem;
+  }
+  .eyebrow::before{
+    content:"";
+    width:18px; height:3px;
+    background:var(--amarillo);
+    display:inline-block;
+  }
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 24px;}
+  button{font-family:inherit; cursor:pointer; border:none;}
+
+  /* corrugated "portón" texture - signature motif */
+  .corrugado{
+    height:14px;
+    background:repeating-linear-gradient(90deg, var(--amarillo) 0 10px, #d99c1a 10px 12px);
+  }
+  .corrugado.fino{height:6px;}
+
+  /* ---------- HEADER / NAV ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:var(--tinta);
+    color:#fff;
+  }
+  .nav-row{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 24px; gap:24px;
+  }
+  .brand{display:flex; align-items:center; gap:10px; font-family:'Barlow Condensed'; font-weight:800; font-size:1.25rem; letter-spacing:.02em;}
+  .brand .mono-badge{
+    background:var(--amarillo); color:var(--tinta);
+    font-family:'JetBrains Mono'; font-weight:700; font-size:.75rem;
+    padding:5px 8px; border-radius:2px;
+  }
+  nav.links{display:flex; gap:28px; align-items:center;}
+  nav.links a{
+    font-family:'JetBrains Mono'; font-size:.75rem; letter-spacing:.05em; text-transform:uppercase;
+    color:#cfcac2; padding:6px 0; border-bottom:2px solid transparent; transition:.15s;
+  }
+  nav.links a:hover{color:#fff; border-color:var(--amarillo);}
+  .nav-actions{display:flex; align-items:center; gap:14px;}
+  .search-box{
+    display:flex; align-items:center; gap:6px;
+    background:#2b2926; border:1px solid #43413d; border-radius:20px;
+    padding:6px 12px;
+  }
+  .search-box input{
+    background:transparent; border:none; outline:none; color:#fff;
+    font-family:'Inter'; font-size:.85rem; width:130px;
+  }
+  .search-box input::placeholder{color:#8b8781;}
+  .search-box svg{flex:none;}
+  .btn{
+    display:inline-block; padding:11px 22px;
+    font-family:'JetBrains Mono'; font-size:.72rem; font-weight:700;
+    letter-spacing:.08em; text-transform:uppercase;
+    border-radius:2px; transition:.15s;
+  }
+  .btn-amarillo{background:var(--amarillo); color:var(--tinta);}
+  .btn-amarillo:hover{background:#ffc94a;}
+  .btn-outline{background:transparent; border:1.5px solid rgba(255,255,255,.4); color:#fff;}
+  .btn-outline:hover{border-color:#fff;}
+  .btn-ladrillo{background:var(--ladrillo); color:#fff;}
+  .btn-ladrillo:hover{background:var(--ladrillo-dark);}
+  .hamburger{display:none; flex-direction:column; gap:5px; background:none;}
+  .hamburger span{width:24px; height:2px; background:#fff;}
+
+  /* ---------- AVISOS TICKER (foro de avisos) ---------- */
+  .ticker-bar{
+    background:var(--acero-dark); color:#e9e4d8;
+    overflow:hidden; white-space:nowrap; position:relative;
+    border-bottom:1px solid #1c2e36;
+  }
+  .ticker-bar .tag{
+    position:absolute; left:0; top:0; bottom:0; z-index:2;
+    background:var(--ladrillo); color:#fff;
+    font-family:'JetBrains Mono'; font-size:.7rem; font-weight:700; letter-spacing:.08em;
+    display:flex; align-items:center; padding:0 16px; text-transform:uppercase;
+  }
+  .ticker-track{
+    display:inline-flex; padding-left:150px;
+    animation: scroll-left 28s linear infinite;
+  }
+  .ticker-track span{
+    font-family:'Inter'; font-size:.85rem; padding:9px 40px 9px 0; opacity:.92;
+  }
+  @keyframes scroll-left{
+    0%{transform:translateX(0);}
+    100%{transform:translateX(-50%);}
+  }
+  .avisos-manager{
+    display:none; background:#26241f; border-bottom:1px solid #3a3833;
+  }
+  body.edit-mode .avisos-manager{display:block;}
+  .avisos-manager-inner{
+    display:flex; align-items:center; gap:12px; flex-wrap:wrap; padding:12px 24px;
+  }
+  .am-label{
+    font-family:'JetBrains Mono'; font-size:.68rem; text-transform:uppercase; letter-spacing:.06em;
+    color:#9a968d; flex:none;
+  }
+  .am-chips{display:flex; gap:8px; flex-wrap:wrap; flex:1;}
+  .am-chip{
+    display:flex; align-items:center; gap:8px;
+    background:#332f29; color:#e6e1d6; font-size:.78rem;
+    padding:6px 8px 6px 12px; border-radius:20px; max-width:280px;
+  }
+  .am-chip span{white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .am-chip button{
+    background:rgba(255,255,255,.12); color:#fff; border-radius:50%;
+    width:20px; height:20px; font-size:.65rem; flex:none; border:none; cursor:pointer;
+  }
+  .am-chip button.del:hover{background:var(--ladrillo);}
+  .am-chip button.edit:hover{background:var(--amarillo); color:var(--tinta);}
+  .am-add{flex:none; padding:8px 16px; font-size:.68rem;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    background: linear-gradient(180deg, rgba(20,18,16,.15), rgba(20,18,16,.72)),
+      repeating-linear-gradient(135deg, #b0524b 0 26px, #A6403A 26px 52px);
+    color:#fff;
+    padding:96px 24px 70px;
+    overflow:hidden;
+  }
+  .hero::after{
+    content:"";
+    position:absolute; left:0; right:0; bottom:0; height:14px;
+    background:repeating-linear-gradient(90deg, var(--amarillo) 0 34px, #d99c1a 34px 40px);
+  }
+  .hero-inner{max-width:760px; margin:0 auto; text-align:center; position:relative; z-index:2;}
+  .hero .eyebrow{justify-content:center; color:var(--amarillo);}
+  .hero .eyebrow::before{background:#fff;}
+  .hero h1{
+    font-size:clamp(2.4rem, 6vw, 4.2rem);
+    margin:16px 0 18px;
+    text-shadow:0 2px 18px rgba(0,0,0,.35);
+  }
+  .hero p{
+    font-size:1.05rem; color:#f1ece1; max-width:560px; margin:0 auto 32px;
+    font-weight:400;
+  }
+  .hero-ctas{display:flex; gap:14px; justify-content:center; flex-wrap:wrap;}
+
+  /* ---------- SECTION generic ---------- */
+  section{padding:76px 0;}
+  .section-head{max-width:640px; margin-bottom:40px;}
+  .section-head h2{font-size:clamp(1.9rem, 4vw, 2.6rem); margin-top:10px;}
+  .section-head p{color:#4a4741; margin-top:12px; font-size:1rem;}
+  .bg-acero{background:var(--acero); color:#fff;}
+  .bg-acero .section-head p{color:#d4dde0;}
+  .bg-tinta{background:var(--tinta); color:#fff;}
+
+  /* ---------- INSTITUCION / DIRECTIVOS ---------- */
+  .directivos-grid{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:20px;
+  }
+  .directivo-card{
+    background:#fff; border:1px solid var(--linea); border-radius:var(--radius);
+    padding:22px; position:relative;
+  }
+  .directivo-card .avatar{
+    width:52px; height:52px; border-radius:50%;
+    background:var(--acero); color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Barlow Condensed'; font-weight:700; font-size:1.2rem;
+    margin-bottom:14px;
+  }
+  .directivo-card h4{font-size:1.1rem; text-transform:none; letter-spacing:0;}
+  .directivo-card .rol{font-family:'JetBrains Mono'; font-size:.68rem; color:var(--ladrillo); text-transform:uppercase; letter-spacing:.06em; margin-top:4px; display:block;}
+  .directivo-card.editable .edit-controls{top:10px; right:10px;}
+  .directivos-grid .add-tile{min-height:150px;}
+
+  /* ---------- ESPECIALIDADES ---------- */
+  .esp-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:18px;}
+  .esp-card{
+    background:#fff; border:1px solid var(--linea);
+    padding:26px 22px; position:relative; overflow:hidden;
+  }
+  .esp-card .num{
+    font-family:'JetBrains Mono'; font-size:.7rem; color:#9a968d; font-weight:700;
+  }
+  .esp-card{color:var(--tinta);}
+  .esp-card h4{font-size:1.35rem; margin:10px 0 8px; text-transform:none; color:var(--tinta);}
+  .esp-card p{font-size:.9rem; color:#4a4741;}
+  .esp-card .num{color:#9a968d;}
+  .esp-card.nueva{border:1.5px solid var(--amarillo); background:#fffdf5;}
+  .esp-card.nueva::before{
+    content:"NUEVA";
+    position:absolute; top:14px; right:14px;
+    font-family:'JetBrains Mono'; font-size:.62rem; font-weight:700;
+    background:var(--amarillo); color:var(--tinta); padding:3px 8px; letter-spacing:.06em;
+  }
+
+  /* ---------- TALLERES gallery (placeholders visuales) ---------- */
+  .taller-grid{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:14px;
+  }
+  .taller-ph{
+    aspect-ratio:4/3; position:relative; overflow:hidden;
+    background:var(--acero-dark);
+    display:flex; align-items:flex-end;
+  }
+  .taller-ph.puerta{
+    background:
+      repeating-linear-gradient(90deg, var(--amarillo) 0 22px, #d99c1a 22px 26px);
+  }
+  .taller-ph.puerta::before{
+    content:""; position:absolute; inset:0;
+    background:repeating-linear-gradient(0deg, rgba(0,0,0,.08) 0 4px, transparent 4px 34px);
+  }
+  .taller-ph.interior{
+    background: linear-gradient(160deg, #2c4753, #17262c 70%);
+  }
+  .taller-ph.interior::before{
+    content:""; position:absolute; inset:0;
+    background: repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0 2px, transparent 2px 60px);
+  }
+  .taller-ph.grupo{
+    background: linear-gradient(160deg, #7E2F2B, #4a1d1a 75%);
+  }
+  .taller-label{
+    position:relative; z-index:2; width:100%;
+    background:linear-gradient(0deg, rgba(0,0,0,.65), transparent);
+    color:#fff; padding:14px 14px 10px;
+    font-family:'JetBrains Mono'; font-size:.72rem; letter-spacing:.05em; text-transform:uppercase;
+  }
+
+  /* ---------- NOTICIAS ---------- */
+  .noticias-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px;}
+  .noticia-card{background:#fff; border:1px solid var(--linea);}
+  .noticia-card .fecha-bar{
+    background:var(--tinta); color:var(--amarillo);
+    font-family:'JetBrains Mono'; font-size:.7rem; font-weight:700; letter-spacing:.06em;
+    padding:8px 16px; text-transform:uppercase;
+  }
+  .noticia-card .body{padding:20px;}
+  .noticia-card h4{font-size:1.15rem; text-transform:none; margin-bottom:8px;}
+  .noticia-card p{font-size:.88rem; color:#4a4741;}
+
+  /* ---------- UTILIDADES (del Figma original) ---------- */
+  .util-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px;}
+  .util-card{
+    background:#fff; border-left:4px solid var(--ladrillo);
+    padding:26px 24px; box-shadow:0 1px 3px rgba(0,0,0,.04);
+  }
+  .util-card h4{font-size:1.2rem; text-transform:none; margin-bottom:4px;}
+  .util-card .sub{font-family:'JetBrains Mono'; font-size:.68rem; color:#9a968d; text-transform:uppercase; letter-spacing:.05em;}
+  .util-card p{margin-top:12px; font-size:.9rem; color:#4a4741;}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--acero-dark); color:#cfd9dc; padding:60px 0 26px;}
+  .footer-grid{
+    display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:30px;
+    padding-bottom:40px; border-bottom:1px solid rgba(255,255,255,.1);
+  }
+  .footer-grid h5{
+    font-family:'JetBrains Mono'; font-size:.72rem; letter-spacing:.08em;
+    color:var(--amarillo); text-transform:uppercase; margin-bottom:16px;
+  }
+  .footer-grid ul{list-style:none;}
+  .footer-grid li{margin-bottom:9px; font-size:.87rem;}
+  .footer-grid li a:hover{color:#fff;}
+  .footer-brand{font-family:'Barlow Condensed'; font-weight:800; font-size:1.4rem; color:#fff; margin-bottom:10px;}
+  .footer-bottom{
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;
+    padding-top:22px; font-size:.78rem; color:#8fa1a7;
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:900px){
+    .footer-grid{grid-template-columns:1fr 1fr;}
+    .taller-grid{grid-template-columns:repeat(2,1fr);}
+  }
+  @media (max-width:760px){
+    nav.links, .search-box{display:none;}
+    .hamburger{display:flex;}
+    .nav-actions .btn-amarillo{padding:9px 14px;}
+    section{padding:56px 0;}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+    .taller-grid{grid-template-columns:repeat(2,1fr);}
+  }
+  @media (max-width:480px){
+    .footer-grid{grid-template-columns:1fr;}
+    .taller-grid{grid-template-columns:1fr 1fr;}
+    .hero{padding:70px 20px 54px;}
+  }
+
+  /* ---------- EDIT MODE ---------- */
+  .btn-edit-toggle{
+    background:transparent; border:1.5px solid rgba(255,255,255,.35); color:#cfcac2;
+  }
+  .btn-edit-toggle.on{background:var(--amarillo); border-color:var(--amarillo); color:var(--tinta);}
+  .editable{position:relative;}
+  .edit-controls{
+    display:none; position:absolute; top:10px; right:10px; z-index:5;
+    gap:6px;
+  }
+  body.edit-mode .edit-controls{display:flex;}
+  .edit-icon{
+    width:28px; height:28px; border-radius:50%;
+    background:rgba(0,0,0,.55); color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    font-size:.8rem; border:none; cursor:pointer;
+  }
+  .edit-icon:hover{background:var(--tinta);}
+  .edit-icon.del:hover{background:var(--ladrillo);}
+  .esp-card.editable .edit-icon{background:rgba(28,27,25,.7);}
+  .esp-card .edit-controls{top:auto; bottom:10px; right:10px;}
+  .add-tile{
+    display:none;
+    align-items:center; justify-content:center;
+    flex-direction:column; gap:8px;
+    border:2px dashed #9a968d; cursor:pointer;
+    color:#6b6860; font-family:'JetBrains Mono'; font-size:.72rem; text-transform:uppercase; letter-spacing:.06em;
+    min-height:120px; background:transparent;
+  }
+  body.edit-mode .add-tile{display:flex;}
+  .add-tile:hover{border-color:var(--ladrillo); color:var(--ladrillo);}
+  .add-tile .plus{font-family:'Barlow Condensed'; font-size:2rem; line-height:1;}
+  .taller-grid .add-tile{aspect-ratio:4/3;}
+  .taller-ph{cursor:default;}
+  .taller-ph img{width:100%; height:100%; object-fit:cover; position:absolute; inset:0;}
+
+  /* modal */
+  .modal-overlay{
+    display:none; position:fixed; inset:0; background:rgba(20,18,16,.72);
+    z-index:200; align-items:center; justify-content:center; padding:20px;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal-box{
+    background:#fff; width:100%; max-width:420px; border-top:5px solid var(--amarillo);
+    padding:28px 26px; max-height:88vh; overflow-y:auto;
+  }
+  .modal-box h3{font-size:1.3rem; margin-bottom:18px; text-transform:none;}
+  .field{margin-bottom:16px;}
+  .field label{
+    display:block; font-family:'JetBrains Mono'; font-size:.68rem; letter-spacing:.06em;
+    text-transform:uppercase; color:#6b6860; margin-bottom:6px;
+  }
+  .field input[type=text], .field textarea{
+    width:100%; border:1.5px solid var(--linea); padding:10px 12px;
+    font-family:'Inter'; font-size:.9rem; border-radius:2px; resize:vertical;
+  }
+  .field input[type=file]{font-size:.85rem;}
+  .img-preview{
+    width:100%; height:120px; object-fit:cover; margin-top:10px; border:1px solid var(--linea); display:none;
+  }
+  .modal-actions{display:flex; justify-content:space-between; align-items:center; margin-top:20px; gap:10px;}
+  .modal-actions .right{display:flex; gap:10px;}
+  .btn-text{background:transparent; color:#6b6860; font-family:'JetBrains Mono'; font-size:.72rem; text-transform:uppercase; letter-spacing:.05em;}
+  .save-note{
+    position:fixed; bottom:22px; left:50%; transform:translateX(-50%) translateY(20px);
+    background:var(--tinta); color:#fff; padding:10px 18px; font-family:'JetBrains Mono'; font-size:.75rem;
+    border-left:3px solid var(--amarillo); opacity:0; transition:.25s; z-index:300; letter-spacing:.03em;
+  }
+  .save-note.show{opacity:1; transform:translateX(-50%) translateY(0);}
+
+  /* mobile nav panel */
+  .mobile-panel{
+    display:none; flex-direction:column; gap:2px;
+    background:#26241f; padding:10px 24px 18px;
+  }
+  .mobile-panel.open{display:flex;}
+  .mobile-panel a{
+    padding:12px 0; color:#e6e1d6; border-bottom:1px solid #3a3833;
+    font-family:'JetBrains Mono'; font-size:.8rem; letter-spacing:.05em; text-transform:uppercase;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-row wrap">
+    <a href="#inicio" class="brand"><span class="mono-badge">247</span> IPET Ing. Cassaffousth</a>
+    <nav class="links">
+      <a href="#institucion">Institución</a>
+      <a href="#especialidades">Especialidades</a>
+      <a href="#talleres">Talleres</a>
+      <a href="#noticias">Noticias</a>
+      <a href="#utilidades">Ayuda</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <div class="nav-actions">
+      <div class="search-box">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8b8781" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="siteSearch" type="text" placeholder="Buscar en el sitio...">
+      </div>
+      <button id="editModeBtn" class="btn btn-edit-toggle">✎ Editar</button>
+      <a href="#inscripcion" class="btn btn-amarillo">Inscribirse</a>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-panel" id="mobilePanel">
+    <a href="#institucion">Institución</a>
+    <a href="#especialidades">Especialidades</a>
+    <a href="#talleres">Talleres</a>
+    <a href="#noticias">Noticias</a>
+    <a href="#utilidades">Ayuda</a>
+    <a href="#contacto">Contacto</a>
+  </div>
+</header>
+
+<!-- FORO DE AVISOS (RF-04) -->
+<div class="ticker-bar">
+  <div class="tag">Avisos</div>
+  <div class="ticker-track" id="tickerTrack"></div>
+</div>
+<div class="avisos-manager" id="avisosManager">
+  <div class="wrap avisos-manager-inner">
+    <span class="am-label">Gestionar avisos:</span>
+    <div class="am-chips" id="avisosChips"></div>
+    <button class="btn btn-ladrillo am-add" id="addAvisoBtn">+ Nuevo aviso</button>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-inner">
+    <div class="eyebrow">Escuela Técnica · Formación en Ambiente de Trabajo</div>
+    <h1>IPET N° 247<br>"Ing. Carlos Cassaffousth"</h1>
+    <p>Formamos técnicos con oficio real: carpintería, mecánica, electricidad y programación. Conocé nuestros talleres, novedades y todo lo que necesitás para sumarte a la escuela.</p>
+    <div class="hero-ctas">
+      <a href="#inscripcion" class="btn btn-amarillo">Inscribirse</a>
+      <a href="#institucion" class="btn btn-outline">Conocer la escuela</a>
+    </div>
+  </div>
+</section>
+
+<!-- INSTITUCION -->
+<section id="institucion">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Institución</div>
+      <h2>Quiénes dirigen la escuela</h2>
+      <p>Equipo directivo y de gestión actualizado para el ciclo lectivo en curso, para que sepas siempre con quién hablar.</p>
+    </div>
+    <div class="directivos-grid" id="directivosGrid"></div>
+  </div>
+</section>
+
+<!-- ESPECIALIDADES -->
+<section id="especialidades" class="bg-acero">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Especialidades</div>
+      <h2>Todo lo que podés estudiar acá</h2>
+      <p>Cinco orientaciones técnicas, incluyendo Programación — antes ausente del sitio anterior.</p>
+    </div>
+    <div class="esp-grid" id="espGrid"></div>
+  </div>
+</section>
+
+<!-- TALLERES -->
+<section id="talleres">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Vida de taller</div>
+      <h2>Talleres de especialidad</h2>
+      <p>En esta escuela tenemos una gran variedad de especialidades que los estudiantes pueden estudiar. Reemplazá estos espacios por fotos reales de cada taller.</p>
+      <a href="#" class="btn btn-ladrillo" style="margin-top:18px;">Conocer horarios</a>
+    </div>
+    <div class="taller-grid" id="tallerGrid"></div>
+  </div>
+</section>
+
+<!-- NOTICIAS -->
+<section id="noticias" class="bg-acero">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Comunidad educativa</div>
+      <h2>Noticias y eventos</h2>
+      <p>Novedades importantes de la escuela, siempre actualizadas.</p>
+    </div>
+    <div class="noticias-grid">
+      <div class="noticia-card">
+        <div class="fecha-bar">18 Ago 2026</div>
+        <div class="body">
+          <h4>Muestra anual de talleres</h4>
+          <p>Los estudiantes exhibirán sus proyectos de fin de año a la comunidad y familias.</p>
+        </div>
+      </div>
+      <div class="noticia-card">
+        <div class="fecha-bar">02 Sep 2026</div>
+        <div class="body">
+          <h4>Charla de orientación vocacional</h4>
+          <p>Encuentro para futuros ingresantes sobre las cinco especialidades disponibles.</p>
+        </div>
+      </div>
+      <div class="noticia-card">
+        <div class="fecha-bar">20 Sep 2026</div>
+        <div class="body">
+          <h4>Cierre de inscripciones 2027</h4>
+          <p>Último día para completar la documentación de ingreso al ciclo lectivo próximo.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UTILIDADES (estructura tomada del Figma original) -->
+<section id="utilidades">
+  <div class="wrap">
+    <div class="section-head" id="inscripcion">
+      <div class="eyebrow">Utilidades</div>
+      <h2>Acá están otras cosas que podrían ser útiles</h2>
+    </div>
+    <div class="util-grid">
+      <div class="util-card">
+        <span class="sub">Comunicación</span>
+        <h4>Métodos de comunicación</h4>
+        <p>Horarios y noticias. Acá vas a poder ver las novedades de la escuela y la información para turnos y talleres específicos.</p>
+      </div>
+      <div class="util-card">
+        <span class="sub">Trámites</span>
+        <h4>Inscripciones y material</h4>
+        <p>La papelería y los papeles que necesitás. Consultá los requisitos para inscripción, salidas y educación física, además de dónde conseguir el uniforme.</p>
+      </div>
+      <div class="util-card">
+        <span class="sub">Aula virtual</span>
+        <h4>Classroom</h4>
+        <p>Accedé a los cursos, tareas y material de cada materia desde Google Classroom con tu cuenta institucional.</p>
+        <a href="https://classroom.google.com" target="_blank" rel="noopener" class="btn btn-ladrillo" style="margin-top:14px;">Ir a Classroom</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="contacto">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">IPET N° 247</div>
+        <p style="font-size:.85rem; max-width:260px;">"Ing. Carlos Cassaffousth" — Educación técnica con oficio real.</p>
+      </div>
+      <div>
+        <h5>Información</h5>
+        <ul>
+          <li><a href="#">Cursos y turnos</a></li>
+          <li><a href="#talleres">Talleres</a></li>
+          <li><a href="#">Establecimiento y mapa</a></li>
+          <li><a href="#inscripcion">Inscripciones</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Personas del recinto</h5>
+        <ul>
+          <li><a href="#institucion">Directivos</a></li>
+          <li><a href="#">Profesores</a></li>
+          <li><a href="#">Docentes retirados</a></li>
+          <li><a href="#">Ex alumnos</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Ayuda</h5>
+        <ul>
+          <li><a href="#">Contactanos</a></li>
+          <li><a href="#noticias">Novedades</a></li>
+          <li><a href="#">Dónde buscar</a></li>
+          <li><a href="#">Redes sociales</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 IPET N° 247 "Ing. Carlos Cassaffousth"</span>
+      <span>Sitio desarrollado por estudiantes — Formación en Ambiente de Trabajo</span>
+    </div>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <h3 id="modalTitle">Agregar especialidad</h3>
+    <div class="field" id="fieldTitulo">
+      <label>Título</label>
+      <input type="text" id="modalTituloInput" placeholder="Ej: Electromecánica">
+    </div>
+    <div class="field" id="fieldDesc">
+      <label>Descripción</label>
+      <textarea id="modalDescInput" rows="3" placeholder="Breve descripción de la especialidad"></textarea>
+    </div>
+    <div class="field" id="fieldAviso" style="display:none;">
+      <label>Texto del aviso</label>
+      <textarea id="modalAvisoInput" rows="3" placeholder="Ej: El lunes 20/08 no habrá clases por acto escolar."></textarea>
+    </div>
+    <div class="field" id="fieldNombre" style="display:none;">
+      <label>Nombre y apellido</label>
+      <input type="text" id="modalNombreInput" placeholder="Ej: María Gómez">
+    </div>
+    <div class="field" id="fieldRol" style="display:none;">
+      <label>Cargo</label>
+      <input type="text" id="modalRolInput" placeholder="Ej: Vicedirección">
+    </div>
+    <div class="field" id="fieldEtiqueta" style="display:none;">
+      <label>Etiqueta de la foto</label>
+      <input type="text" id="modalEtiquetaInput" placeholder="Ej: Taller Electrónica">
+    </div>
+    <div class="field" id="fieldImagen" style="display:none;">
+      <label>Imagen (opcional)</label>
+      <input type="file" id="modalImagenInput" accept="image/*">
+      <img id="modalImgPreview" class="img-preview">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-text" id="modalDeleteBtn" style="display:none;">Eliminar</button>
+      <div class="right">
+        <button class="btn btn-text" id="modalCancelBtn">Cancelar</button>
+        <button class="btn btn-ladrillo" id="modalSaveBtn">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="save-note" id="saveNote">Cambios guardados</div>
+
+<script>
+  // mobile menu toggle
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const mobilePanel = document.getElementById('mobilePanel');
+  hamburgerBtn.addEventListener('click', () => mobilePanel.classList.toggle('open'));
+  mobilePanel.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobilePanel.classList.remove('open')));
+
+  // buscador interno simple (RF-05): resalta y hace scroll a la sección que matchea
+  const searchInput = document.getElementById('siteSearch');
+  searchInput.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter') return;
+    const q = e.target.value.trim().toLowerCase();
+    if (!q) return;
+    const sections = document.querySelectorAll('section, footer');
+    let target = null;
+    sections.forEach(sec => {
+      if (!target && sec.innerText.toLowerCase().includes(q)) target = sec;
+    });
+    if (target) target.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  /* =========================================================
+     CONTENIDO EDITABLE: especialidades y galería de talleres
+     Se guarda con window.storage (persiste entre visitas dentro
+     de Claude). Si el sitio se aloja fuera de Claude, funciona
+     igual mientras dure la sesión, pero no persiste sin backend.
+  ========================================================== */
+  const DEFAULT_STATE = {
+    avisos: [
+      '📌 Inscripciones 2027 abiertas del 1 al 30 de septiembre — traer DNI y certificado de escolaridad.',
+      '🧽 El viernes 15/08 se realizará desinfección general — no habrá clases en el turno tarde.',
+      '🏆 Alumnos de Carpintería representarán a la escuela en la feria provincial de innovación.'
+    ],
+    directivos: [
+      {name:'Nombre y Apellido', role:'Rectoría'},
+      {name:'Nombre y Apellido', role:'Vicedirección'},
+      {name:'Nombre y Apellido', role:'Regencia Técnica'},
+      {name:'Nombre y Apellido', role:'Secretaría'}
+    ],
+    especialidades: [
+      {title:'Programación', desc:'Desarrollo de software, lógica de programación y bases de datos aplicadas a proyectos reales.', badge:'NUEVA'},
+      {title:'Carpintería', desc:'Diseño y fabricación en madera, desde el plano técnico hasta la pieza terminada.'},
+      {title:'Mecánica', desc:'Mecanizado, ajuste y mantenimiento de máquinas y motores en taller equipado.'},
+      {title:'Electricidad', desc:'Instalaciones eléctricas domiciliarias e industriales, con foco en normas de seguridad.'},
+      {title:'Administración', desc:'Gestión contable, comercial y organizacional para pymes y emprendimientos.'}
+    ],
+    talleres: [
+      {label:'Portón · Taller Carpintería', style:'puerta', image:null},
+      {label:'Taller Mecánica', style:'interior', image:null},
+      {label:'Alumnos · Proyecto final', style:'grupo', image:null},
+      {label:'Banco de trabajo', style:'interior', image:null},
+      {label:'Portón · Taller Mecánica', style:'puerta', image:null},
+      {label:'Muestra de trabajos', style:'grupo', image:null}
+    ]
+  };
+  let STATE = JSON.parse(JSON.stringify(DEFAULT_STATE));
+  let editMode = false;
+  let memoryFallback = {}; // usado si window.storage no está disponible
+
+  async function loadState(){
+    try{
+      const res = await window.storage.get('site-content', false);
+      if(res && res.value){ STATE = JSON.parse(res.value); }
+    }catch(e){
+      if(memoryFallback['site-content']){ STATE = JSON.parse(memoryFallback['site-content']); }
+    }
+    renderAvisos();
+    renderDirectivos();
+    renderEspecialidades();
+    renderTalleres();
+  }
+
+  async function saveState(){
+    const json = JSON.stringify(STATE);
+    try{
+      const result = await window.storage.set('site-content', json, false);
+      if(!result) throw new Error('sin resultado');
+    }catch(e){
+      memoryFallback['site-content'] = json;
+    }
+    flashSaveNote();
+  }
+
+  function flashSaveNote(){
+    const note = document.getElementById('saveNote');
+    note.classList.add('show');
+    setTimeout(()=>note.classList.remove('show'), 1600);
+  }
+
+  function renderAvisos(){
+    const track = document.getElementById('tickerTrack');
+    const list = STATE.avisos.length ? STATE.avisos : ['Todavía no hay avisos cargados.'];
+    // duplicar la lista para que el scroll continuo no muestre saltos
+    track.innerHTML = list.concat(list).map(a => `<span>${escapeHtml(a)}</span>`).join('');
+
+    const chips = document.getElementById('avisosChips');
+    chips.innerHTML = '';
+    STATE.avisos.forEach((a, idx)=>{
+      const chip = document.createElement('div');
+      chip.className = 'am-chip';
+      chip.innerHTML = `
+        <span>${escapeHtml(a)}</span>
+        <button class="edit" onclick="openAvisoModal(${idx})" title="Editar">✎</button>
+        <button class="del" onclick="deleteAviso(${idx})" title="Eliminar">✕</button>`;
+      chips.appendChild(chip);
+    });
+  }
+
+  function initials(name){
+    const parts = name.trim().split(/\s+/).filter(Boolean);
+    if(parts.length === 0) return '??';
+    if(parts.length === 1) return parts[0].slice(0,2).toUpperCase();
+    return (parts[0][0] + parts[parts.length-1][0]).toUpperCase();
+  }
+
+  function renderDirectivos(){
+    const grid = document.getElementById('directivosGrid');
+    grid.innerHTML = '';
+    STATE.directivos.forEach((d, idx)=>{
+      const card = document.createElement('div');
+      card.className = 'directivo-card editable';
+      card.innerHTML = `
+        <div class="edit-controls">
+          <button class="edit-icon" onclick="openDirectivoModal(${idx})" title="Editar">✎</button>
+          <button class="edit-icon del" onclick="deleteDirectivo(${idx})" title="Eliminar">🗑</button>
+        </div>
+        <div class="avatar">${escapeHtml(initials(d.name))}</div>
+        <h4>${escapeHtml(d.name)}</h4>
+        <span class="rol">${escapeHtml(d.role)}</span>`;
+      grid.appendChild(card);
+    });
+    const addTile = document.createElement('div');
+    addTile.className = 'directivo-card add-tile';
+    addTile.onclick = () => openDirectivoModal(null);
+    addTile.innerHTML = '<span class="plus">+</span><span>Agregar integrante</span>';
+    grid.appendChild(addTile);
+  }
+
+  function renderEspecialidades(){
+    const grid = document.getElementById('espGrid');
+    grid.innerHTML = '';
+    STATE.especialidades.forEach((esp, idx)=>{
+      const num = 'ESP · ' + String(idx+1).padStart(2,'0');
+      const card = document.createElement('div');
+      card.className = 'esp-card editable' + (esp.badge ? ' nueva' : '');
+      card.innerHTML = `
+        <div class="edit-controls">
+          <button class="edit-icon" onclick="openEspModal(${idx})" title="Editar">✎</button>
+          <button class="edit-icon del" onclick="deleteEsp(${idx})" title="Eliminar">🗑</button>
+        </div>
+        <div class="num">${num}</div>
+        <h4>${escapeHtml(esp.title)}</h4>
+        <p>${escapeHtml(esp.desc)}</p>`;
+      grid.appendChild(card);
+    });
+    const addTile = document.createElement('div');
+    addTile.className = 'esp-card add-tile';
+    addTile.onclick = () => openEspModal(null);
+    addTile.innerHTML = '<span class="plus">+</span><span>Agregar especialidad</span>';
+    grid.appendChild(addTile);
+  }
+
+  function renderTalleres(){
+    const grid = document.getElementById('tallerGrid');
+    grid.innerHTML = '';
+    const styles = ['puerta','interior','grupo'];
+    STATE.talleres.forEach((t, idx)=>{
+      const tile = document.createElement('div');
+      const styleClass = t.image ? '' : (' ' + (t.style || styles[idx % 3]));
+      tile.className = 'taller-ph editable' + styleClass;
+      tile.innerHTML = `
+        ${t.image ? `<img src="${t.image}" alt="${escapeHtml(t.label)}">` : ''}
+        <div class="edit-controls">
+          <button class="edit-icon" onclick="openTallerModal(${idx})" title="Editar">✎</button>
+          <button class="edit-icon del" onclick="deleteTaller(${idx})" title="Eliminar">🗑</button>
+        </div>
+        <div class="taller-label" style="position:relative; z-index:2;">${escapeHtml(t.label)}</div>`;
+      grid.appendChild(tile);
+    });
+    const addTile = document.createElement('div');
+    addTile.className = 'add-tile';
+    addTile.onclick = () => openTallerModal(null);
+    addTile.innerHTML = '<span class="plus">+</span><span>Agregar foto</span>';
+    grid.appendChild(addTile);
+  }
+
+  function escapeHtml(str){
+    const d = document.createElement('div');
+    d.innerText = str == null ? '' : str;
+    return d.innerHTML;
+  }
+
+  /* ---- edit mode toggle ---- */
+  document.getElementById('editModeBtn').addEventListener('click', ()=>{
+    editMode = !editMode;
+    document.body.classList.toggle('edit-mode', editMode);
+    document.getElementById('editModeBtn').classList.toggle('on', editMode);
+    document.getElementById('editModeBtn').textContent = editMode ? '✓ Editando' : '✎ Editar';
+  });
+
+  /* ---- modal generico ---- */
+  let modalContext = null; // 'esp' | 'taller'
+  let modalIndex = null;
+  let pendingImageData = null;
+
+  const overlay = document.getElementById('modalOverlay');
+  const fieldTitulo = document.getElementById('fieldTitulo');
+  const fieldDesc = document.getElementById('fieldDesc');
+  const fieldAviso = document.getElementById('fieldAviso');
+  const fieldNombre = document.getElementById('fieldNombre');
+  const fieldRol = document.getElementById('fieldRol');
+  const fieldEtiqueta = document.getElementById('fieldEtiqueta');
+  const fieldImagen = document.getElementById('fieldImagen');
+  const tituloInput = document.getElementById('modalTituloInput');
+  const descInput = document.getElementById('modalDescInput');
+  const avisoInput = document.getElementById('modalAvisoInput');
+  const nombreInput = document.getElementById('modalNombreInput');
+  const rolInput = document.getElementById('modalRolInput');
+  const etiquetaInput = document.getElementById('modalEtiquetaInput');
+  const imagenInput = document.getElementById('modalImagenInput');
+  const imgPreview = document.getElementById('modalImgPreview');
+  const deleteBtn = document.getElementById('modalDeleteBtn');
+
+  function hideAllFields(){
+    fieldTitulo.style.display = 'none'; fieldDesc.style.display = 'none';
+    fieldAviso.style.display = 'none';
+    fieldNombre.style.display = 'none'; fieldRol.style.display = 'none';
+    fieldEtiqueta.style.display = 'none'; fieldImagen.style.display = 'none';
+  }
+
+  function openAvisoModal(idx){
+    modalContext = 'aviso'; modalIndex = idx; pendingImageData = null;
+    hideAllFields();
+    fieldAviso.style.display = '';
+    if(idx === null){
+      document.getElementById('modalTitle').textContent = 'Agregar aviso';
+      avisoInput.value=''; deleteBtn.style.display='none';
+    }else{
+      document.getElementById('modalTitle').textContent = 'Editar aviso';
+      avisoInput.value = STATE.avisos[idx]; deleteBtn.style.display='';
+    }
+    overlay.classList.add('open');
+  }
+
+  function openDirectivoModal(idx){
+    modalContext = 'directivo'; modalIndex = idx; pendingImageData = null;
+    hideAllFields();
+    fieldNombre.style.display = ''; fieldRol.style.display = '';
+    if(idx === null){
+      document.getElementById('modalTitle').textContent = 'Agregar integrante';
+      nombreInput.value=''; rolInput.value=''; deleteBtn.style.display='none';
+    }else{
+      const d = STATE.directivos[idx];
+      document.getElementById('modalTitle').textContent = 'Editar integrante';
+      nombreInput.value = d.name; rolInput.value = d.role; deleteBtn.style.display='';
+    }
+    overlay.classList.add('open');
+  }
+
+  function openEspModal(idx){
+    modalContext = 'esp'; modalIndex = idx; pendingImageData = null;
+    hideAllFields();
+    fieldTitulo.style.display = ''; fieldDesc.style.display = '';
+    fieldEtiqueta.style.display = 'none'; fieldImagen.style.display = 'none';
+    if(idx === null){
+      document.getElementById('modalTitle').textContent = 'Agregar especialidad';
+      tituloInput.value=''; descInput.value=''; deleteBtn.style.display='none';
+    }else{
+      const esp = STATE.especialidades[idx];
+      document.getElementById('modalTitle').textContent = 'Editar especialidad';
+      tituloInput.value = esp.title; descInput.value = esp.desc; deleteBtn.style.display='';
+    }
+    overlay.classList.add('open');
+  }
+
+  function openTallerModal(idx){
+    modalContext = 'taller'; modalIndex = idx; pendingImageData = null;
+    hideAllFields();
+    fieldEtiqueta.style.display = ''; fieldImagen.style.display = '';
+    imgPreview.style.display = 'none'; imagenInput.value = '';
+    if(idx === null){
+      document.getElementById('modalTitle').textContent = 'Agregar foto de taller';
+      etiquetaInput.value=''; deleteBtn.style.display='none';
+    }else{
+      const t = STATE.talleres[idx];
+      document.getElementById('modalTitle').textContent = 'Editar foto de taller';
+      etiquetaInput.value = t.label; deleteBtn.style.display='';
+      if(t.image){ imgPreview.src = t.image; imgPreview.style.display='block'; }
+    }
+    overlay.classList.add('open');
+  }
+
+  imagenInput.addEventListener('change', (e)=>{
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      pendingImageData = reader.result;
+      imgPreview.src = pendingImageData;
+      imgPreview.style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+  });
+
+  document.getElementById('modalCancelBtn').addEventListener('click', closeModal);
+  overlay.addEventListener('click', (e)=>{ if(e.target === overlay) closeModal(); });
+  function closeModal(){ overlay.classList.remove('open'); }
+
+  document.getElementById('modalSaveBtn').addEventListener('click', ()=>{
+    if(modalContext === 'aviso'){
+      const text = avisoInput.value.trim();
+      if(!text){ avisoInput.focus(); return; }
+      if(modalIndex === null) STATE.avisos.push(text);
+      else STATE.avisos[modalIndex] = text;
+      renderAvisos();
+    } else if(modalContext === 'directivo'){
+      const name = nombreInput.value.trim();
+      const role = rolInput.value.trim();
+      if(!name){ nombreInput.focus(); return; }
+      const item = {name, role: role || 'Integrante del equipo'};
+      if(modalIndex === null) STATE.directivos.push(item);
+      else Object.assign(STATE.directivos[modalIndex], item);
+      renderDirectivos();
+    } else if(modalContext === 'esp'){
+      const title = tituloInput.value.trim();
+      const desc = descInput.value.trim();
+      if(!title){ tituloInput.focus(); return; }
+      const item = {title, desc};
+      if(modalIndex === null) STATE.especialidades.push(item);
+      else Object.assign(STATE.especialidades[modalIndex], item);
+      renderEspecialidades();
+    } else if(modalContext === 'taller'){
+      const label = etiquetaInput.value.trim() || 'Taller';
+      const item = {label};
+      if(pendingImageData) item.image = pendingImageData;
+      if(modalIndex === null){
+        STATE.talleres.push(Object.assign({style:'interior', image:null}, item));
+      } else {
+        Object.assign(STATE.talleres[modalIndex], item);
+      }
+      renderTalleres();
+    }
+    saveState();
+    closeModal();
+  });
+
+  deleteBtn.addEventListener('click', ()=>{
+    if(modalContext === 'aviso' && modalIndex !== null){
+      STATE.avisos.splice(modalIndex,1);
+      renderAvisos();
+    } else if(modalContext === 'directivo' && modalIndex !== null){
+      STATE.directivos.splice(modalIndex,1);
+      renderDirectivos();
+    } else if(modalContext === 'esp' && modalIndex !== null){
+      STATE.especialidades.splice(modalIndex,1);
+      renderEspecialidades();
+    } else if(modalContext === 'taller' && modalIndex !== null){
+      STATE.talleres.splice(modalIndex,1);
+      renderTalleres();
+    }
+    saveState();
+    closeModal();
+  });
+
+  window.deleteAviso = (idx)=>{
+    if(!confirm('¿Eliminar este aviso?')) return;
+    STATE.avisos.splice(idx,1);
+    renderAvisos();
+    saveState();
+  };
+  window.deleteDirectivo = (idx)=>{
+    if(!confirm('¿Eliminar este integrante?')) return;
+    STATE.directivos.splice(idx,1);
+    renderDirectivos();
+    saveState();
+  };
+  window.deleteEsp = (idx)=>{
+    if(!confirm('¿Eliminar esta especialidad?')) return;
+    STATE.especialidades.splice(idx,1);
+    renderEspecialidades();
+    saveState();
+  };
+  window.deleteTaller = (idx)=>{
+    if(!confirm('¿Eliminar esta foto?')) return;
+    STATE.talleres.splice(idx,1);
+    renderTalleres();
+    saveState();
+  };
+  window.openEspModal = openEspModal;
+  window.openTallerModal = openTallerModal;
+  window.openDirectivoModal = openDirectivoModal;
+  window.openAvisoModal = openAvisoModal;
+  document.getElementById('addAvisoBtn').addEventListener('click', () => openAvisoModal(null));
+
+  loadState();
+</script>
+</body>
+</html>
